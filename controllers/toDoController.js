@@ -12,6 +12,9 @@ const addToDo = async (req, res) => {
       user,
     });
 
+    // Log the new to-do item data to the terminal
+    console.log('New To-Do Item:', newToDo);
+
     // Save the to-do item to the database
     const savedToDo = await newToDo.save();
 
@@ -26,9 +29,7 @@ const addToDo = async (req, res) => {
       error: error.message,
     });
   }
-};
-
-// Function to edit an existing to-do item
+}; // Function to edit an existing to-do item
 const editToDo = async (req, res) => {
   try {
     const { id } = req.params;
@@ -40,6 +41,9 @@ const editToDo = async (req, res) => {
       { title, description, status },
       { new: true, runValidators: true }
     );
+
+    // Log the updated to-do item data to the terminal
+    console.log('Updated To-Do Item:', updatedToDo);
 
     if (!updatedToDo) {
       return res.status(404).json({
