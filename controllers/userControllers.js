@@ -6,19 +6,18 @@ const createUser = async (req, res) => {
   // 1. Check incoming data
   console.log(req.body);
 
-  // 2. DesStructure the incoming data
+  // 2. Destructure the incoming data
   const { fullName, phoneNumber, email, password } = req.body;
 
   // 3. Validate the data (if empty, stop the process and send response)
   if (!fullName || !phoneNumber || !email || !password) {
-    // res.send("Please enter all fields");
     return res.status(400).json({
       success: false,
       message: 'Please enter all fields!',
     });
   }
 
-  // 4. Error Handling(try catch)
+  // 4. Error Handling (try catch)
   try {
     // 5. Check if the user is already registered
     const existingUser = await userModel.findOne({ email: email });
@@ -62,7 +61,7 @@ const loginUser = async (req, res) => {
   // 1. Check incoming data
   console.log(req.body);
 
-  // 2. DesStructure the incoming data
+  // 2. Destructure the incoming data
   const { email, password } = req.body;
 
   // 3. Validate the data (if empty, stop the process and send response)
@@ -75,7 +74,6 @@ const loginUser = async (req, res) => {
   try {
     // 4. Check if the user is already registered
     const user = await userModel.findOne({ email: email });
-    // found data: fullName, phoneNumber, email, password
 
     // 4.1 if user not found: Send response
     if (!user) {
@@ -87,6 +85,7 @@ const loginUser = async (req, res) => {
     // 4.2 if user found
     // 5. Check if the password is correct
     const passwordCorrect = await bcrypt.compare(password, user.password);
+
     // 5.1 if password is wrong: Send response
     if (!passwordCorrect) {
       return res.status(400).json({
@@ -96,11 +95,12 @@ const loginUser = async (req, res) => {
     }
 
     // 5.2 if password is correct
-    // Token (generate -user data and key)
+    // Token (generate - user data and key)
     const token = await jwt.sign(
-      { id: user._id, isAdmin: user.isAdmin },
+      { id: user._id }, // Removed isAdmin field
       process.env.JWT_SECRET
     );
+
     // Send the response (token, user data)
     res.status(201).json({
       success: true,
@@ -111,7 +111,6 @@ const loginUser = async (req, res) => {
         fullName: user.fullName,
         phoneNumber: user.phoneNumber,
         email: user.email,
-        isAdmin: user.isAdmin,
       },
     });
   } catch (error) {
