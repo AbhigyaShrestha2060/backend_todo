@@ -15,8 +15,9 @@ const toDoSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'users',
+    required: true,
   },
 });
 
-const ToDo = mongoose.model('todos', toDoSchema);
+const ToDo = mongoose.model('ToDo', toDoSchema);
 module.exports = ToDo;
