@@ -5,6 +5,6 @@ const authMiddleware = require('../middleware/authMiddleware');
 
 // Route to add a new to-do item
 router.post('/todo/add', authMiddleware, toDoController.addToDo);
-router.post('/todo/edit/:id', authMiddleware, toDoController.editToDo);
+router.put('/todo/edit/:id', authMiddleware, toDoController.editToDo);
 router.get('/todo/get', authMiddleware, toDoController.getUserToDos);
 module.exports = router;
