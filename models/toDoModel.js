@@ -17,6 +17,10 @@ const toDoSchema = new mongoose.Schema({
     ref: 'users',
     required: true,
   },
+  date:{
+    type:String,
+    default:Date(),
+  }
 });
 
 const ToDo = mongoose.model('ToDo', toDoSchema);
